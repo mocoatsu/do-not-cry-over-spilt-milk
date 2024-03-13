@@ -28,12 +28,37 @@ impl MilkBucket {
             true
         }
     }
+
+    pub fn display_bucket(&mut self) {
+        let total_lines = 5;
+
+        for line in (1..=total_lines).rev() {
+            if self.milk == line {
+                println!("|~~|");
+            } else {
+                println!("|  |");
+            }
+        }
+
+        if self.milk == MAX_MILK {
+            println!("|__| __");
+        } else {
+            println!("|__|");
+        }
+    }
 }
 
 fn main() {
     let mut bucket = MilkBucket::new();
 
     loop {
+        bucket.display_bucket();
+
+        if bucket.milk == MAX_MILK {
+            println!("Don't cry over split milk!! ༼ ༎ຶ ෴ ༎ຶ༽");
+            break;
+        }
+
         println!("Press `p` to pour milk, `d` to drink, or `q` to quit");
 
         let mut action = String::new();
@@ -43,10 +68,7 @@ fn main() {
 
         match action.trim() {
             "p" => {
-                if !bucket.pour_milk() {
-                    println!("Don't cry over split milk");
-                    break;
-                }
+                bucket.pour_milk();
             }
             "d" => {
                 if !bucket.dring_milk() {
